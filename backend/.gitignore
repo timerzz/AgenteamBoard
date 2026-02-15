@@ -1,4 +1,15 @@
 node_modules/
 *.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnp.*
+*.pid
+dist/
 .DS_Store
 coverage/
+
+# 环境变量文件
+.env
+.env.local
+.env.*.local

@@ -6,7 +6,7 @@
   "type": "module",
   "scripts": {
     "dev": "fastify start -l info -P src/server.js",
-    "start": "NODE_ENV=production node src/server.js"
+    "start": "node src/server.js"
   },
   "dependencies": {
     "fastify": "^4.26.0",
