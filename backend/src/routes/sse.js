@@ -1,5 +1,22 @@
 const clients = new Set();
+const MAX_CLIENTS = 100; // 最大客户端连接数
 let heartbeatInterval = null;
+let cleanupInterval = null;
+
+/**
+ * 清理所有资源（定时器、客户端连接）
+ */
+export function cleanup() {
+  if (heartbeatInterval) {
+    clearInterval(heartbeatInterval);
+    heartbeatInterval = null;
+  }
+  if (cleanupInterval) {
+    clearInterval(cleanupInterval);
+    cleanupInterval = null;
+  }
+  clients.clear();
+}
 
 /**
  * 清理断开的客户端
@@ -58,9 +75,25 @@ export default async function sseRoutes(fastify) {
   startHeartbeat();
 
   // 定期清理断开的客户端
-  setInterval(cleanupClients, 60000); // 每60秒清理一次
+  cleanupInterval = setInterval(cleanupClients, 60000); // 每60秒清理一次
+
+  // 服务器关闭时清理资源
+  const cleanupHandler = () => {
+    cleanup();
+    process.exit(0);
+  };
+
+  process.on('SIGTERM', cleanupHandler);
+  process.on('SIGINT', cleanupHandler);
 
   fastify.get('/api/events', async (request, reply) => {
+    // 限制最大连接数
+    if (clients.size >= MAX_CLIENTS) {
+      return reply.code(503).send({
+        error: '服务器繁忙，请稍后重试',
+        message: `已达到最大连接数限制 (${MAX_CLIENTS})`
+      });
+    }
     // 设置SSE响应头
     reply.raw.writeHead(200, {
       'Content-Type': 'text/event-stream',
