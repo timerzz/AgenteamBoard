@@ -1,4 +1,5 @@
 import { loadAllTeams, loadTeam, loadTeamMessages } from '../services/teamLoader.js';
+import { VALID_ID_PATTERN } from '../utils/pathHelper.js';
 
 /**
  * 注册团队相关API路由
@@ -21,6 +22,13 @@ export default async function teamRoutes(fastify) {
   fastify.get('/api/teams/:id', async (request, reply) => {
     try {
       const { id } = request.params;
+
+      // 验证teamId格式
+      if (!id || !VALID_ID_PATTERN.test(id)) {
+        reply.code(400);
+        return { error: '无效的团队ID', teamId: id };
+      }
+
       const team = await loadTeam(id);
 
       if (!team) {
@@ -40,6 +48,13 @@ export default async function teamRoutes(fastify) {
   fastify.get('/api/teams/:id/messages', async (request, reply) => {
     try {
       const { id } = request.params;
+
+      // 验证teamId格式
+      if (!id || !VALID_ID_PATTERN.test(id)) {
+        reply.code(400);
+        return { error: '无效的团队ID', teamId: id };
+      }
+
       const { limit, before } = request.query;
 
       const options = {};
