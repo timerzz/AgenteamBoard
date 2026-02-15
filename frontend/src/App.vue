@@ -1,34 +1,37 @@
-<template>
-  <div class="min-h-screen bg-void">
-    <div class="container mx-auto px-4 py-8">
-      <header class="mb-8">
-        <h1 class="text-4xl font-bold text-accent-primary glow-md">
-          AgenteamBoard
-        </h1>
-        <p class="text-text-secondary mt-2">Agent Teams 实时监控面板</p>
-      </header>
+<script setup>
+import { onMounted } from 'vue';
 
-      <main>
-        <div class="bg-deep border border-border-subtle rounded-lg p-8">
-          <p class="text-text-primary">前端项目初始化完成！</p>
-          <p class="text-text-secondary mt-4">
-            接下来将实现：
-          </p>
-          <ul class="list-disc list-inside text-text-secondary mt-2 space-y-1">
-            <li>Pinia状态管理</li>
-            <li>SSE连接hook</li>
-            <li>TeamList组件</li>
-            <li>MessageCard组件</li>
-            <li>MessageFeed组件</li>
-            <li>JsonViewer组件</li>
-            <li>ViewToggle组件</li>
-          </ul>
+onMounted(() => {
+  document.title = 'AgenteamBoard';
+});
+</script>
+
+<template>
+  <div class="min-h-screen bg-abyss">
+    <div class="flex h-screen">
+      <!-- 侧边栏 -->
+      <aside class="w-64 bg-deep border-r border-border-subtle">
+        <div class="p-4 border-b border-border-subtle">
+          <h1 class="text-xl font-semibold text-accent-primary">AgenteamBoard</h1>
+          <p class="text-xs text-text-secondary mt-1">Agent Teams监控</p>
+        </div>
+        <div class="p-4">
+          <p class="text-text-muted text-sm">加载团队列表...</p>
+        </div>
+      </aside>
+
+      <!-- 主内容区 -->
+      <main class="flex-1 flex flex-col">
+        <header class="h-16 bg-surface border-b border-border-subtle flex items-center justify-between px-6">
+          <h2 class="text-lg font-medium text-text-primary">选择一个团队</h2>
+          <div class="flex items-center gap-4">
+            <span class="text-sm text-text-muted">开发中</span>
+          </div>
+        </header>
+        <div class="flex-1 flex items-center justify-center">
+          <p class="text-text-muted">等待团队加载...</p>
         </div>
       </main>
     </div>
   </div>
 </template>
-
-<script setup>
-// 组件逻辑将在后续任务中实现
-</script>
