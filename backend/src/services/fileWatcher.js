@@ -67,25 +67,40 @@ export function startFileWatcher(teamsPath, broadcastSSE) {
     },
   });
 
-  watcher.on('add', (filePath) => {
-    if (filePath.endsWith('config.json')) {
-      handleConfigChange(filePath, 'add', broadcastSSE);
-    } else if (filePath.endsWith('.json')) {
-      handleInboxChange(filePath, 'add', broadcastSSE);
+  watcher.on('add', async (filePath) => {
+    try {
+      console.log(`[FileWatcher] 文件添加: ${filePath}`);
+      if (filePath.endsWith('config.json')) {
+        await handleConfigChange(filePath, 'add', broadcastSSE);
+      } else if (filePath.endsWith('.json')) {
+        await handleInboxChange(filePath, 'add', broadcastSSE);
+      }
+    } catch (error) {
+      console.error(`[FileWatcher] 处理add事件失败: ${filePath}`, error);
     }
   });
 
-  watcher.on('change', (filePath) => {
-    if (filePath.endsWith('config.json')) {
-      handleConfigChange(filePath, 'change', broadcastSSE);
-    } else if (filePath.endsWith('.json')) {
-      handleInboxChange(filePath, 'change', broadcastSSE);
+  watcher.on('change', async (filePath) => {
+    try {
+      console.log(`[FileWatcher] 文件变更: ${filePath}`);
+      if (filePath.endsWith('config.json')) {
+        await handleConfigChange(filePath, 'change', broadcastSSE);
+      } else if (filePath.endsWith('.json')) {
+        await handleInboxChange(filePath, 'change', broadcastSSE);
+      }
+    } catch (error) {
+      console.error(`[FileWatcher] 处理change事件失败: ${filePath}`, error);
     }
   });
 
-  watcher.on('unlink', (filePath) => {
-    if (filePath.endsWith('config.json')) {
-      handleConfigChange(filePath, 'unlink', broadcastSSE);
+  watcher.on('unlink', async (filePath) => {
+    try {
+      console.log(`[FileWatcher] 文件删除: ${filePath}`);
+      if (filePath.endsWith('config.json')) {
+        await handleConfigChange(filePath, 'unlink', broadcastSSE);
+      }
+    } catch (error) {
+      console.error(`[FileWatcher] 处理unlink事件失败: ${filePath}`, error);
     }
   });
 
