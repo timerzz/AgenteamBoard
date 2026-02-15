@@ -2,6 +2,7 @@ import path from 'path';
 import os from 'os';
 
 const TEAMS_PATH = process.env.TEAMS_PATH || path.join(os.homedir(), '.claude', 'teams');
+const VALID_ID_PATTERN = /^[a-zA-Z0-9_-]+$/;
 
 /**
  * 获取团队目录路径
@@ -9,6 +10,9 @@ const TEAMS_PATH = process.env.TEAMS_PATH || path.join(os.homedir(), '.claude', 
  * @returns {string} 团队目录完整路径
  */
 export function getTeamPath(teamId) {
+  if (!teamId || typeof teamId !== 'string' || !VALID_ID_PATTERN.test(teamId)) {
+    throw new Error(`Invalid teamId: ${teamId}`);
+  }
   return path.join(TEAMS_PATH, teamId);
 }
 
@@ -48,7 +52,7 @@ export function getMemberInboxPath(teamId, memberName) {
 export function extractTeamId(filePath) {
   const relative = path.relative(TEAMS_PATH, filePath);
   const parts = relative.split(path.sep);
-  return parts[0] || null;
+  return parts[0] && parts[0] !== '.' ? parts[0] : null;
 }
 
 /**

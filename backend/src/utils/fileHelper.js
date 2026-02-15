@@ -30,7 +30,7 @@ export async function readJSONSafe(filePath) {
     }
     if (error instanceof SyntaxError) {
       console.error(`JSON解析失败: ${filePath}`, error.message);
-      return { parseError: true };
+      return null; // 改为返回null，与ENOENT一致
     }
     console.error(`读取文件失败: ${filePath}`, error);
     return null;
