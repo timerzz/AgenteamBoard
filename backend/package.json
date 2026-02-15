@@ -1,0 +1,20 @@
+{
+  "name": "agenteam-board-backend",
+  "version": "1.0.0",
+  "description": "AgenteamBoard后端服务",
+  "main": "src/server.js",
+  "type": "module",
+  "scripts": {
+    "dev": "fastify start -l info -P src/server.js",
+    "start": "NODE_ENV=production node src/server.js"
+  },
+  "dependencies": {
+    "fastify": "^4.26.0",
+    "@fastify/cors": "^9.0.1",
+    "chokidar": "^3.6.0",
+    "proper-lockfile": "^4.1.2"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
