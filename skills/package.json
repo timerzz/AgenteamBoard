@@ -1,0 +1,19 @@
+{
+  "name": "agenteam-board-skill",
+  "version": "1.0.0",
+  "description": "Claude Code Skill for AgenteamBoard - Monitor AI agent team conversations",
+  "main": "SKILL.md",
+  "files": [
+    "agenteam-board/"
+  ],
+  "keywords": [
+    "claude-code",
+    "skill",
+    "agent",
+    "team",
+    "monitoring",
+    "dashboard"
+  ],
+  "author": "",
+  "license": "MIT"
+}

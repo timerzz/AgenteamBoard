@@ -118,6 +118,30 @@ agenteam-board
 npm run dev
 ```
 
+## Claude Code Skill 集成
+
+AgenteamBoard 可以作为 Claude Code 的 Skill 使用，让 Claude 自动识别何时需要启动团队监控。
+
+### 安装 Skill
+
+```bash
+# 安装到 Claude Code
+npm run install-skill
+
+# 卸载
+npm run uninstall-skill
+```
+
+### 使用方式
+
+安装后，Claude Code 会自动识别并使用此 skill，或者你可以明确要求：
+
+```
+使用 agenteam-board skill 监控我的 agent 团队
+```
+
+更多详情请查看 [skills/README.md](skills/README.md)。
+
 ## 配置
 
 ### 团队配置
