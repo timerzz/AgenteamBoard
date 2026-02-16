@@ -275,7 +275,7 @@ npm run build
 
 The build output will be in `packages/frontend/dist`.
 
-For detailed deployment options (PM2, Docker, Nginx), see the deployment section in README_ZH.md.
+For detailed deployment options (PM2, Nginx), see the deployment section in README_ZH.md.
 
 ## Troubleshooting
 

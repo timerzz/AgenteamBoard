@@ -355,103 +355,6 @@ server {
 }
 ```
 
-#### 方式二：Docker 部署（推荐用于生产）
-
-**1. 创建 Dockerfile**
-
-在项目根目录创建 `Dockerfile`：
-
-```dockerfile
-FROM node:18-alpine
-
-WORKDIR /app
-
-# 复制根 package.json
-COPY package*.json ./
-
-# 复制 backend 代码
-COPY packages/backend/package*.json ./packages/backend/
-COPY packages/backend/src ./packages/backend/src
-RUN cd packages/backend && npm install --production
-
-# 复制 frontend 代码并构建
-COPY packages/frontend/package*.json ./packages/frontend/
-COPY packages/frontend/src ./packages/frontend/src
-COPY packages/frontend/index.html ./packages/frontend/
-COPY packages/frontend/vite.config.js ./packages/frontend/
-COPY packages/frontend/postcss.config.js ./packages/frontend/
-COPY packages/frontend/tailwind.config.js ./packages/frontend/
-RUN cd packages/frontend && npm install && npm run build
-
-# 移动构建产物到后端静态目录
-RUN mv packages/frontend/dist packages/backend/static
-
-EXPOSE 3001
-
-WORKDIR /app/packages/backend
-CMD ["node", "src/server.js"]
-```
-
-**2. 创建 docker-compose.yml**
-
-```yaml
-version: '3.8'
-
-services:
-  agenteam-board:
-    build: .
-    ports:
-      - "3001:3001"
-    volumes:
-      # 挂载团队配置目录（只读）
-      - ~/.claude/teams:/root/.claude/teams:ro
-    environment:
-      - NODE_ENV=production
-      - PORT=3001
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "node", "-e", "require('http').get('http://localhost:3001/api/teams', (r) => process.exit(r.statusCode === 200 ? 0 : 1))"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-      start_period: 40s
-```
-
-**3. 构建和运行**
-
-```bash
-# 构建镜像
-docker-compose build
-
-# 启动服务
-docker-compose up -d
-
-# 查看日志
-docker-compose logs -f
-
-# 停止服务
-docker-compose down
-
-# 重新构建并启动
-docker-compose up -d --build
-```
-
-**4. Docker 常用操作**
-
-```bash
-# 查看运行状态
-docker-compose ps
-
-# 进入容器调试
-docker-compose exec agenteam-board sh
-
-# 查看资源使用
-docker stats agenteam-board
-
-# 清理未使用的镜像
-docker image prune -a
-```
-
 ### 环境变量配置
 
 创建 `.env` 文件（可选）：
@@ -480,7 +383,7 @@ const teamsPath = process.env.TEAMS_PATH || path.join(os.homedir(), '.claude', '
 - [ ] 使用 `NODE_ENV=production` 环境变量
 - [ ] 启用 Gzip 压缩（Nginx 或 Fastify 插件）
 - [ ] 配置日志记录和监控
-- [ ] 设置进程管理器（PM2）或容器编排（Docker Swarm/K8s）
+- [ ] 设置进程管理器（PM2）
 - [ ] 配置 HTTPS/SSL 证书
 - [ ] 设置防火墙规则
 - [ ] 配置备份策略
@@ -547,16 +450,6 @@ const teamsPath = process.env.TEAMS_PATH || path.join(os.homedir(), '.claude', '
 - 考虑实现消息分页
 - 检查浏览器内存使用
 - 优化消息筛选逻辑
-
-### Docker 容器无法访问团队文件
-
-**问题**：Docker 容器内的应用无法读取团队配置
-
-**解决方案**：
-- 确认 docker-compose.yml 中的 volumes 挂载正确
-- 检查宿主机目录权限
-- 验证容器内的路径（Linux 容器使用 `/root/.claude/teams`）
-- 检查 SELinux/AppArmor 策略（Linux）
 
 ## 性能优化建议
 
