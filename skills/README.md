@@ -36,15 +36,6 @@ ln -s $(pwd)/skills/agenteam-board ~/.claude/skills/agenteam-board
 cd /path/to/AgenteamBoard
 git pull
 ```
-
-## 发布到 Superpowers Marketplace（可选）
-
-如果你想将这个 skill 贡献到 superpowers marketplace：
-
-1. Fork [superpowers-marketplace](https://github.com/nickmillerdev/superpowers-marketplace)
-2. 将 `skills/agenteam-board/` 复制到 marketplace 的 `skills/` 目录
-3. 提交 Pull Request
-
 ## Skill 内容
 
 这个 skill 包含：

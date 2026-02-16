@@ -1,421 +1,320 @@
 # AgenteamBoard
 
-Agent Teams 监控系统 - 实时监控和查看多 Agent 团队的对话消息。
+Real-time monitoring dashboard for AI agent team conversations.
 
-## 功能特性
+[中文文档](README_ZH.md)
 
-- 📊 **团队管理** - 自动加载和监控多个 Agent 团队
-- 👥 **成员列表** - 查看团队中的所有成员及其角色
-- 💬 **消息监控** - 实时接收和显示团队对话消息
-- 🔍 **消息筛选** - 按成员筛选消息，支持搜索功能
-- 🎨 **现代界面** - 三栏布局，响应式设计，流畅的用户体验
-- 🔄 **SSE 实时更新** - 通过 Server-Sent Events 实时推送新消息
-- ⚙️ **系统消息** - 显示系统协议消息（非 JSON 格式）
+## Introduction
 
-## 技术栈
+AgenteamBoard is a web-based dashboard for monitoring AI agent team conversations in real-time. It provides a visual interface to track messages, team members, and collaboration patterns across multiple agent teams.
 
-### 后端
-- **Fastify** - 高性能 Web 框架
-- **Node.js** - 运行时环境（要求 >= 18.0.0）
-- **Chokidar** - 文件监听，自动加载团队配置
-- **SSE (Server-Sent Events)** - 实时消息推送
+### Features
 
-### 前端
-- **Vue 3** - 使用 Composition API
-- **Pinia** - 状态管理
-- **Vite** - 开发服务器和构建工具
-- **TailwindCSS** - 实用优先的 CSS 框架
-- **Vue Virtual Scroller** - 虚拟滚动，优化长列表性能
+- 📊 **Team Management** - Automatically load and monitor multiple agent teams
+- 👥 **Member List** - View all team members and their roles
+- 💬 **Message Monitoring** - Real-time message reception and display
+- 🔍 **Message Filtering** - Filter messages by member with search functionality
+- 🎨 **Modern Interface** - Three-column layout, responsive design, smooth UX
+- 🔄 **SSE Real-time Updates** - Push new messages via Server-Sent Events
+- ⚙️ **System Messages** - Display system protocol messages with special formatting
 
-## 项目结构
+## Claude Code Skill Usage
 
-```
-agenteam-board/
-├── package.json              # 根 package.json，定义 bin 和 workspaces
-├── bin/
-│   └── cli.js                # CLI 入口
-├── packages/
-│   ├── backend/              # 后端代码
-│   │   ├── package.json
-│   │   └── src/
-│   │       ├── server.js
-│   │       ├── routes/
-│   │       ├── services/
-│   │       └── utils/
-│   └── frontend/             # 前端代码
-│       ├── package.json
-│       ├── vite.config.js
-│       ├── index.html
-│       └── src/
-└── README.md
+AgenteamBoard can be used as a Claude Code Skill, allowing Claude to automatically recognize when team monitoring is needed.
+
+### Install Skill
+
+```bash
+# Install to Claude Code
+npm run install-skill
+
+# Uninstall
+npm run uninstall-skill
 ```
 
-## 快速开始
+### Usage in Claude Code
 
-### 前置要求
+After installation, Claude Code will automatically recognize and use this skill, or you can explicitly request:
+
+```
+Use agenteam-board skill to monitor my agent teams
+```
+
+The skill enables:
+- One-command dashboard startup
+- Real-time team conversation monitoring
+- Member activity tracking
+- System message inspection
+
+For more details, see [skills/README.md](skills/README.md).
+
+## NPX Quick Start
+
+### Prerequisites
 
 - Node.js >= 18.0.0
-- npm 或 yarn
+- npm or yarn
 
-### 方式一：使用 NPX（推荐）
+### Method 1: NPX (Recommended)
 
-安装并运行（一键启动）：
+Install and run with one command:
 
 ```bash
 npx agenteam-board
 ```
 
-这将自动：
-- 启动后端 API 服务器（端口 3001）
-- 启动前端开发服务器（端口 3000）
-- 自动打开浏览器访问应用
+This will automatically:
+- Start backend API server (port 3001+)
+- Start frontend dev server (port 3000+)
+- Open browser automatically
+- Display all teams from `~/.claude/teams`
 
-按 `Ctrl+C` 可同时停止两个服务。
+Press `Ctrl+C` to gracefully shutdown both servers.
 
-### 方式二：从源码运行
+### Method 2: From Source
 
-1. 克隆仓库
+1. Clone repository
 ```bash
 git clone <repository-url>
 cd AgenteamBoard
 ```
 
-2. 安装依赖（自动安装所有 workspaces）
+2. Install dependencies (auto-installs all workspaces)
 ```bash
 npm install
 ```
 
-3. 运行开发服务器
+3. Run development server
 ```bash
 npm run dev
 ```
 
-或者分别启动后端和前端：
+Or start backend and frontend separately:
 ```bash
-# 启动后端
+# Start backend
 npm run backend
 
-# 在另一个终端启动前端
+# In another terminal, start frontend
 npm run frontend
 ```
 
-4. 访问应用
+4. Access application
 ```
-前端: http://localhost:3000
+Frontend: http://localhost:3000
 API: http://localhost:3001
 ```
 
-### 方式三：全局安装
+### Method 3: Global Installation
 
 ```bash
-# 全局安装
+# Install globally
 npm link
 
-# 运行
+# Run
 agenteam-board
 
-# 或者
+# Or
 npm run dev
 ```
 
-## Claude Code Skill 集成
+## Technical Architecture
 
-AgenteamBoard 可以作为 Claude Code 的 Skill 使用，让 Claude 自动识别何时需要启动团队监控。
+### Technology Stack
 
-### 安装 Skill
+#### Backend
+- **Fastify** - High-performance web framework
+- **Node.js** - Runtime environment (>= 18.0.0)
+- **Chokidar** - File watching for auto-loading team configs
+- **SSE (Server-Sent Events)** - Real-time message streaming
 
-```bash
-# 安装到 Claude Code
-npm run install-skill
+#### Frontend
+- **Vue 3** - Composition API
+- **Pinia** - State management
+- **Vite** - Development server and build tool
+- **TailwindCSS** - Utility-first CSS framework
+- **Vue Virtual Scroller** - Virtual scrolling for long lists
 
-# 卸载
-npm run uninstall-skill
+### Project Structure
+
+```
+agenteam-board/
+├── package.json              # Root package.json with bin and workspaces
+├── bin/
+│   └── cli.js                # CLI entry point
+├── packages/
+│   ├── backend/              # Backend code
+│   │   ├── package.json
+│   │   └── src/
+│   │       ├── server.js     # Main server
+│   │       ├── routes/       # API routes
+│   │       ├── services/     # Business logic
+│   │       └── utils/        # Utilities
+│   └── frontend/             # Frontend code
+│       ├── package.json
+│       ├── vite.config.js
+│       ├── index.html
+│       └── src/
+├── skills/
+│   └── agenteam-board/       # Claude Code skill
+└── scripts/
+    ├── install-skill.js      # Skill installation script
+    └── uninstall-skill.js    # Skill uninstallation script
 ```
 
-### 使用方式
-
-安装后，Claude Code 会自动识别并使用此 skill，或者你可以明确要求：
+### Architecture Diagram
 
 ```
-使用 agenteam-board skill 监控我的 agent 团队
+User Browser
+    ↓
+Frontend (Vue 3 + Vite)
+    ↓ HTTP/SSE
+Backend (Fastify)
+    ↓ File System
+~/.claude/teams/
+    ├── team-1/
+    │   ├── config.json       # Team configuration
+    │   └── inboxes/          # Member message inboxes
+    │       ├── agent1.json
+    │       └── agent2.json
+    └── team-2/
+        ├── config.json
+        └── inboxes/
 ```
 
-更多详情请查看 [skills/README.md](skills/README.md)。
+### How It Works
 
-## 配置
+1. **Backend Initialization**
+   - Loads team configurations from `~/.claude/teams`
+   - Sets up file watcher with Chokidar
+   - Starts Fastify server with CORS enabled
+   - Exposes REST API and SSE endpoint
 
-### 团队配置
+2. **Frontend Connection**
+   - Vue app initializes Pinia stores
+   - Establishes SSE connection to `/api/events`
+   - Fetches initial team list via `/api/teams`
+   - Renders three-column layout
 
-后端会自动监听 `C:\Users\nicor\.claude\teams` 目录下的团队配置文件。团队配置应为 JSON 格式：
+3. **Real-time Updates**
+   - File changes trigger Chokidar events
+   - Backend broadcasts updates via SSE
+   - Frontend receives and updates stores reactively
+   - UI automatically re-renders
+
+4. **Message Flow**
+   - Agent team writes messages to inbox files
+   - File watcher detects changes
+   - Backend reads and parses messages
+   - SSE pushes to connected clients
+   - Virtual scroller efficiently renders messages
+
+### API Endpoints
+
+- `GET /api/teams` - List all teams
+- `GET /api/teams/:teamId/messages` - Get team messages
+- `GET /api/events` - SSE stream for real-time updates
+
+### Configuration
+
+Teams are loaded from `~/.claude/teams` directory. Each team has:
 
 ```json
 {
   "id": "team-id",
-  "name": "团队名称",
+  "name": "Team Name",
   "members": [
     {
-      "name": "成员名称",
-      "agentType": "agent 类型",
+      "name": "Agent Name",
+      "agentType": "agent-type",
       "color": "blue"
     }
   ]
 }
 ```
 
-### API 端点
+### UI Layout
 
-- `GET /api/teams` - 获取所有团队
-- `GET /api/teams/:teamId/messages` - 获取指定团队的消息
-- `GET /api/events` - SSE 实时事件流
+1. **Left Column** - Display all teams
+2. **Middle Column** - Display selected team's members
+3. **Right Column** - Display message content
 
-## 使用说明
+### Navigation Flow
 
-### 三栏布局
+1. Click team → View team members
+2. Click member → Filter messages by that member
+3. Use back button → Return to previous view
 
-1. **左侧栏** - 显示所有团队
-2. **中间栏** - 显示选中团队的成员列表
-3. **右侧主区域** - 显示消息内容
+## Deployment
 
-### 导航流程
-
-1. 点击左侧团队 → 展开成员列表
-2. 点击成员 → 筛选该成员的消息
-3. 使用返回按钮返回上一级
-
-### 系统消息
-
-系统协议消息会以特殊格式显示，带有 ⚙️ 图标，便于区分普通对话消息和系统消息。
-
-## 开发
-
-### 前端打包（生产构建）
+### Development Environment
 
 ```bash
-cd frontend
-npm run build
-```
-
-构建产物将生成在 `frontend/dist` 目录。
-
-### 预览生产构建
-
-本地预览打包后的应用：
-
-```bash
-cd frontend
-npm run preview
-```
-
-预览服务器默认运行在 http://localhost:4173
-
-## 部署
-
-### 方式一：开发环境部署
-
-#### 1. 启动后端
-
-```bash
-cd backend
-npm install
+# Start both servers
 npm run dev
+
+# Or start separately
+npm run backend  # Terminal 1
+npm run frontend # Terminal 2
 ```
 
-后端将运行在 http://localhost:3001
+### Production Environment
 
-#### 2. 启动前端（开发模式）
-
+#### Backend
 ```bash
-cd frontend
-npm install
-npm run dev
-```
-
-前端将运行在 http://localhost:3002
-
-### 方式二：生产环境部署
-
-#### 1. 启动后端
-
-```bash
-cd backend
+cd packages/backend
 npm install --production
 node src/server.js
 ```
 
-或使用 PM2 进程管理器（推荐）：
-
+#### Frontend Build
 ```bash
-# 安装 PM2
-npm install -g pm2
-
-# 启动后端
-pm2 start backend/src/server.js --name "agenteam-backend"
-
-# 查看日志
-pm2 logs agenteam-backend
-
-# 停止服务
-pm2 stop agenteam-backend
-
-# 重启服务
-pm2 restart agenteam-backend
-```
-
-#### 2. 前端打包和部署
-
-**打包前端：**
-
-```bash
-cd frontend
+cd packages/frontend
 npm install
 npm run build
 ```
 
-**部署方式 A - 使用后端静态文件服务（推荐）：**
+The build output will be in `packages/frontend/dist`.
 
-1. 将 `frontend/dist` 目录复制到后端项目
-2. 后端会自动提供静态文件服务
+For detailed deployment options (PM2, Docker, Nginx), see the deployment section in README_ZH.md.
 
-```bash
-# Windows
-xcopy frontend\dist backend\static /E /I /Y
+## Troubleshooting
 
-# Linux/Mac
-cp -r frontend/dist backend/static
-```
+### No Teams Displayed
 
-3. 访问 http://localhost:3001 即可使用完整应用
+**Problem**: Dashboard shows empty team list
 
-**部署方式 B - 使用独立 Web 服务器：**
+**Solutions**:
+- Verify `~/.claude/teams` directory exists
+- Check team config files are valid JSON
+- Inspect browser console for errors
 
-使用 Nginx 或 Apache 配置静态文件服务：
+### Connection Issues
 
-Nginx 配置示例：
+**Problem**: SSE connection fails or messages don't update
 
-```nginx
-server {
-    listen 80;
-    server_name your-domain.com;
+**Solutions**:
+- Verify backend is running (check port 3001+)
+- Check firewall settings
+- Refresh browser page
 
-    # 前端静态文件
-    location / {
-        root /path/to/frontend/dist;
-        try_files $uri $uri/ /index.html;
-    }
+### Port Conflicts
 
-    # 代理 API 请求到后端
-    location /api {
-        proxy_pass http://localhost:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_cache_bypass $http_upgrade;
-    }
+**Problem**: Ports 3000-3010 are in use
 
-    # SSE 事件流代理
-    location /api/events {
-        proxy_pass http://localhost:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Connection '';
-        proxy_set_header Cache-Control 'no-cache';
-        chunked_transfer_encoding off;
-    }
-}
-```
+**Solutions**:
+- AgenteamBoard automatically finds available ports using portfinder
+- Check console output for actual ports used
+- Kill conflicting processes if needed
 
-### 方式三：Docker 部署（推荐用于生产）
-
-创建 `Dockerfile`（后端）：
-
-```dockerfile
-FROM node:18-alpine
-
-WORKDIR /app
-
-# 复制后端代码
-COPY backend/package*.json ./backend/
-COPY backend/src ./backend/src
-RUN cd backend && npm install --production
-
-# 复制前端代码并构建
-COPY frontend/package*.json ./frontend/
-COPY frontend/src ./frontend/src
-COPY frontend/index.html ./frontend/
-COPY frontend/vite.config.js ./frontend/
-COPY frontend/postcss.config.js ./frontend/
-COPY frontend/tailwind.config.js ./frontend/
-RUN cd frontend && npm install && npm run build
-
-# 移动构建产物到后端静态目录
-RUN mv frontend/dist backend/static
-
-EXPOSE 3001
-
-WORKDIR /app/backend
-CMD ["node", "src/server.js"]
-```
-
-创建 `docker-compose.yml`：
-
-```yaml
-version: '3.8'
-
-services:
-  agenteam-board:
-    build: .
-    ports:
-      - "3001:3001"
-    volumes:
-      - C:/Users/nicor/.claude/teams:/teams:ro
-    restart: unless-stopped
-```
-
-构建和运行：
-
-```bash
-# 构建镜像
-docker-compose build
-
-# 启动服务
-docker-compose up -d
-
-# 查看日志
-docker-compose logs -f
-
-# 停止服务
-docker-compose down
-```
-
-### 环境变量配置（可选）
-
-创建 `.env` 文件（backend/.env）：
-
-```env
-PORT=3001
-TEAMS_FILE_PATH=C:\Users\nicor\.claude\teams
-```
-
-修改 `backend/src/server.js` 以支持环境变量。
-
-## 故障排除
-
-### SSE 连接失败
-
-确保后端服务器正在运行，并检查防火墙设置。
-
-### 团队列表为空
-
-检查团队配置文件路径是否正确，文件格式是否有效。
-
-### 消息不更新
-
-查看浏览器控制台是否有错误信息，确认 SSE 连接状态（右上角指示器）。
-
-## 许可证
+## License
 
 MIT License
 
-## 贡献
+## Contributing
 
-欢迎提交 Issue 和 Pull Request！
+Issues and Pull Requests are welcome!
+
+## Related Projects
+
+- [Claude Code](https://github.com/anthropics/claude-code) - AI-powered coding assistant
+- [Superpowers Marketplace](https://github.com/nickmillerdev/superpowers-marketplace) - Claude Code skills marketplace
