@@ -8,6 +8,9 @@ Real-time monitoring dashboard for AI agent team conversations.
 
 AgenteamBoard is a web-based dashboard for monitoring AI agent team conversations in real-time. It provides a visual interface to track messages, team members, and collaboration patterns across multiple agent teams.
 
+![screenshot](./assets/screenshot.png)
+
+
 ### Features
 
 - 📊 **Team Management** - Automatically load and monitor multiple agent teams

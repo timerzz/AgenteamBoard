@@ -8,6 +8,9 @@ AI Agent 团队对话实时监控系统。
 
 AgenteamBoard 是一个基于 Web 的实时监控仪表板，用于监控 AI agent 团队的对话。它提供可视化界面来跟踪消息、团队成员和跨多个 agent 团队的协作模式。
 
+![screenshot](./assets/screenshot.png)
+
+
 ### 功能特性
 
 - 📊 **团队管理** - 自动加载和监控多个 Agent 团队
