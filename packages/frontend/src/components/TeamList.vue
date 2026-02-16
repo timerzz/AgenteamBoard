@@ -49,7 +49,7 @@ function getAgentColor(colorName) {
               ? 'bg-elevated border-accent-primary shadow-glow-sm'
               : 'bg-transparent border-transparent hover:bg-surface'
           ]"
-          @click="teamsStore.setActiveTeam(team.id)"
+          @click="teamsStore.selectTeam(team.id)"
         >
           <div class="flex items-center justify-between">
             <h3 class="text-text-primary font-medium truncate">{{ team.name }}</h3>

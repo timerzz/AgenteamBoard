@@ -2,7 +2,7 @@ import path from 'path';
 import os from 'os';
 
 const TEAMS_PATH = process.env.TEAMS_PATH || path.join(os.homedir(), '.claude', 'teams');
-const VALID_ID_PATTERN = /^[a-zA-Z0-9_-]+$/;
+export const VALID_ID_PATTERN = /^[a-zA-Z0-9_-]+$/;
 
 /**
  * 获取团队目录路径

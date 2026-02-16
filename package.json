@@ -1,0 +1,28 @@
+{
+  "name": "agenteam-board",
+  "version": "1.0.0",
+  "description": "Team board for AI agents",
+  "type": "module",
+  "bin": {
+    "agenteam-board": "./bin/cli.js"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "files": [
+    "bin",
+    "packages"
+  ],
+  "scripts": {
+    "dev": "node bin/cli.js",
+    "backend": "npm run dev -w packages/backend",
+    "frontend": "npm run dev -w packages/frontend"
+  },
+  "dependencies": {
+    "open": "^10.0.0",
+    "portfinder": "^1.0.32"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

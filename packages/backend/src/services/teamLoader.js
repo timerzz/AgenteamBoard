@@ -1,5 +1,6 @@
 import fs from 'fs/promises';
 import path from 'path';
+import os from 'os';
 import {
   getTeamPath,
   getTeamConfigPath,
@@ -8,13 +9,14 @@ import {
 } from '../utils/pathHelper.js';
 import { readJSONSafe, listSubdirectories, listFiles, fileExists } from '../utils/fileHelper.js';
 
+const TEAMS_PATH = process.env.TEAMS_PATH || path.join(os.homedir(), '.claude', 'teams');
+
 /**
  * 加载所有团队列表
  * @returns {Promise<Array>} 团队列表
  */
 export async function loadAllTeams() {
-  const teamsPath = path.join(process.env.HOME, '.claude', 'teams');
-  const teamIds = await listSubdirectories(teamsPath);
+  const teamIds = await listSubdirectories(TEAMS_PATH);
 
   const teams = [];
   for (const teamId of teamIds) {

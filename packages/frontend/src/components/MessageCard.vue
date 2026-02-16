@@ -24,6 +24,31 @@ const protocolData = computed(() => {
   return null;
 });
 
+// 格式化系统协议消息为可读文本
+const formattedProtocolMessage = computed(() => {
+  if (messageType.value !== 'protocol' || !protocolData.value) {
+    return null;
+  }
+
+  const data = protocolData.value;
+  const parts = [];
+
+  // 根据type字段显示不同的消息
+  if (data.type) {
+    parts.push(`类型: ${data.type}`);
+  }
+
+  // 添加其他重要字段
+  Object.entries(data).forEach(([key, value]) => {
+    if (key !== 'type') {
+      const formattedValue = typeof value === 'object' ? JSON.stringify(value, null, 2) : value;
+      parts.push(`${key}: ${formattedValue}`);
+    }
+  });
+
+  return parts.join('\n');
+});
+
 function getAgentColor(colorName) {
   const colors = {
     blue: '#60a5fa',
@@ -118,7 +143,9 @@ function formatTime(timestamp) {
             <span class="text-lg">⚙️</span>
             <span class="text-xs text-text-muted">系统消息</span>
           </div>
-          <pre class="text-xs text-text-secondary overflow-x-auto">{{ JSON.stringify(protocolData, null, 2) }}</pre>
+          <p class="text-xs text-text-secondary whitespace-pre-wrap leading-relaxed">
+            {{ formattedProtocolMessage }}
+          </p>
         </div>
       </div>
     </div>

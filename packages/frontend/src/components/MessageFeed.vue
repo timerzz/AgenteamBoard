@@ -11,12 +11,24 @@ const viewStore = useViewStore();
 
 const messagesContainer = ref(null);
 
+// 判断是否是系统协议消息
+function isSystemMessage(message) {
+  try {
+    const parsed = JSON.parse(message.text);
+    // 如果text是JSON且包含type字段，认为是系统消息
+    return parsed && typeof parsed === 'object' && 'type' in parsed;
+  } catch {
+    // JSON解析失败，说明是普通消息
+    return false;
+  }
+}
+
 const filteredMessages = computed(() => {
   let messages = messagesStore.messages;
 
   // 成员筛选
-  if (viewStore.filterMember) {
-    messages = messages.filter(m => m.from === viewStore.filterMember);
+  if (teamsStore.selectedMemberName) {
+    messages = messages.filter(m => m.from === teamsStore.selectedMemberName);
   }
 
   // 搜索过滤
@@ -39,6 +51,15 @@ watch(() => teamsStore.activeTeamId, async (newTeamId) => {
     messagesStore.clearMessages();
   }
 }, { immediate: true });
+
+// 监听选中的成员，更新筛选
+watch(() => teamsStore.selectedMemberName, (memberName) => {
+  if (memberName) {
+    viewStore.setFilterMember(memberName);
+  } else {
+    viewStore.setFilterMember(null);
+  }
+});
 </script>
 
 <template>
