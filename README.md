@@ -244,39 +244,6 @@ Teams are loaded from `~/.claude/teams` directory. Each team has:
 2. Click member → Filter messages by that member
 3. Use back button → Return to previous view
 
-## Deployment
-
-### Development Environment
-
-```bash
-# Start both servers
-npm run dev
-
-# Or start separately
-npm run backend  # Terminal 1
-npm run frontend # Terminal 2
-```
-
-### Production Environment
-
-#### Backend
-```bash
-cd packages/backend
-npm install --production
-node src/server.js
-```
-
-#### Frontend Build
-```bash
-cd packages/frontend
-npm install
-npm run build
-```
-
-The build output will be in `packages/frontend/dist`.
-
-For detailed deployment options (PM2, Nginx), see the deployment section in README_ZH.md.
-
 ## Troubleshooting
 
 ### No Teams Displayed
